@@ -115,3 +115,21 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+// 将列表型数据转化成树型数据
+export function tranListToTreeData(list, rootValue) {
+  const arr = []
+  // 运用递归
+  list.forEach(item => {
+    if (item.pid === rootValue) {
+      // 默认rootValue为''
+      const children = tranListToTreeData(list, item.id) // 返回一个数组
+      if (children.length) {
+        // 如果children的长度大于0，说明找到了子节点
+        item.children = children // 找到子节点以后，在item中创建一个children属性，让他等于找到的子节点值，element-UI树形控件会自动寻找children属性，将其显示为子节点
+      }
+      arr.push(item) // 将内容放入到数组中
+    }
+  })
+  return arr
+}
